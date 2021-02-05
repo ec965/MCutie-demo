@@ -11,8 +11,8 @@ export const url_replacement = (str) => {
 }
 
 // api routes
-const IPADDRESS = '192.168.1.30';
-const PORT = '5000';
+const IPADDRESS = 'm-cutie.herokuapp.com';
+const PORT = '80';
 
 export const URL = `http://${IPADDRESS}:${PORT}/`;
 export const GETTOPICS = "mqtt/t";

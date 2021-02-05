@@ -9,7 +9,7 @@
     "client": "npm start --prefix backend/client",
     "client-prod": "npm run prod --prefix backend/client",
     "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-    "start" : "npm run server",
+    "start": "npm run server",
     "init": "npm install --prefix client && npm install --prefix backend && npm install"
   },
   "repository": {
@@ -27,8 +27,5 @@
     "nodemon": "^2.0.7",
     "prettier": "2.2.1"
   },
-  "dependencies": {
-    "http": "0.0.1-security",
-    "ws": "^7.4.2"
-  }
+  "dependencies": {}
 }
