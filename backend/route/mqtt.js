@@ -6,7 +6,7 @@ const logger = require("../config/pino");
 const router = express.Router();
 // get all mqtt topics
 router.get("/t", (req, res) => {
-  db.sequelize.query("SELECT DISTINCT topic FROM `msgs`")
+  db.sequelize.query("SELECT DISTINCT topic FROM msgs")
     .then(([topics,metadata]) => res.status(200).send(topics))
     .catch((e) => {
       logger.error("Error getting topics: ", e);
@@ -96,40 +96,45 @@ router.post("/s", (req, res) => {
         qos = qosInt;
       }
     }
+    db.limitSubRows()
+    .then((atLimit) => {
+      if (atLimit) return res.send(400).json({message: "Database sub limit reached."});
 
-    db.Sub.findOne({
-      where:{
-        topic:req.body.topic
-      }
-    })
-    .then((sub) => {
-      if (! sub){
-        mqtt.subscribe(String(req.body.topic), {qos: qos}, (err, granted) => {
-          if (err) {
-            logger.error(`Error subscribing: ${err}`);
-            res.sendStatus(502); // bad gateway to mqtt
-            return;
-          }
-          if (granted){
-            logger.debug(`Subscribed to: ${JSON.stringify(granted)}`);
+      db.Sub.findOne({
+        where:{
+          topic:req.body.topic
+        }
+      })
+      .then((sub) => {
+        if (! sub){
+          mqtt.subscribe(String(req.body.topic), {qos: qos}, (err, granted) => {
+            if (err) {
+              logger.error(`Error subscribing: ${err}`);
+              res.sendStatus(502); // bad gateway to mqtt
+              return;
+            }
+            if (granted){
+              logger.debug(`Subscribed to: ${JSON.stringify(granted)}`);
 
-            db.Sub.create({
-              topic: req.body.topic,
-              qos: qos,
-            })
-              .then((item) => {
-                logger.debug(`Added to database: ${JSON.stringify(item)}`);
-                res.sendStatus(200);
+              db.Sub.create({
+                topic: req.body.topic,
+                qos: qos,
               })
-              .catch((e) => {
-                logger.error(`Error adding subscription to Database: ${e}`);
-                res.sendStatus(500)
-              });
-          }
-        });
-      } else {
-        res.sendStatus(400);
-      }
+                .then((item) => {
+                  logger.debug(`Added to database: ${JSON.stringify(item)}`);
+                  res.sendStatus(200);
+                })
+                .catch((e) => {
+                  logger.error(`Error adding subscription to Database: ${e}`);
+                  res.sendStatus(500)
+                });
+            }
+          });
+        } else {
+          res.sendStatus(400);
+        }
+      })
+
     })
   } else {
     res.sendStatus(400);

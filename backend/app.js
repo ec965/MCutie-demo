@@ -5,6 +5,7 @@ const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const http = require('http');
 const WebSocket = require('ws');
+const path = require('path');
 
 const db = require("./models/index"); 
 const mqtt = require("./mqtt/index"); 
@@ -23,7 +24,13 @@ routes.wss(wss); // apply wss callbacks defined in routes/ws.js
 
 
 db.sequelize.sync({force:false})
-.then(subscribeAll(mqtt))
+.then(() => {
+  subscribeAll(mqtt);
+  // check once a day to delete old messages if nearing message limit
+  setInterval(() => {
+    db.limitMsgRows();
+  }, 24 * 60 * 60 * 1000);
+})
 .catch((e) => logger.error("Error setting up the databse:", e));
 
 // middleware
@@ -31,9 +38,20 @@ app.use(cors());
 app.use(helmet());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
+
 // routes
 // app.use("/live", routes.websocket);
 app.use("/mqtt", routes.mqtt);
+
+// serve the static site
+if (process.env.NODE_ENV === "production"){
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client/build", "index.html"));
+  })
+}
+
 
 // since we're using a websocket, listen on the server instead of the app
 server.listen(PORT, IPADDRESS,() => {

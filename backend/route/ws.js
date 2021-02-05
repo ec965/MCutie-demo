@@ -40,7 +40,7 @@ module.exports = (wss) => {
     mqttEmitter.on("MQTTRX", () => {
       if (ws.readyState === ws.OPEN){
         // update topics
-        db.sequelize.query("SELECT DISTINCT topic FROM `msgs`")
+        db.sequelize.query("SELECT DISTINCT topic FROM msgs")
           .then( ([topics, metadata]) => {
 
             if( JSON.stringify(topics) !== previousTopics){
@@ -131,7 +131,7 @@ module.exports = (wss) => {
 */
 const checkTopicExist = async (msgjson) => {
   if (typeof msgjson.payload.topic !== "undefined"){
-    let [topics, metadata] = await db.sequelize.query("SELECT DISTINCT topic FROM `msgs`")
+    let [topics, metadata] = await db.sequelize.query("SELECT DISTINCT topic FROM msgs")
     if (topics.length !== 0){
       return msgjson.payload.topic;
     }

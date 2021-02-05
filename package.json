@@ -6,10 +6,10 @@
   "scripts": {
     "server": "npm start --prefix backend",
     "server-prod": "npm run prod --prefix backend",
-    "client": "npm start --prefix client",
-    "client-prod": "npm run prod --prefix client",
-    "start": "concurrently --kill-others \"npm run server\" \"npm run client\"",
-    "prod": "concurrently --kill-others \"npm run server-prod\" \"npm run client-prod\"",
+    "client": "npm start --prefix backend/client",
+    "client-prod": "npm run prod --prefix backend/client",
+    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "start" : "npm run server",
     "init": "npm install --prefix client && npm install --prefix backend && npm install"
   },
   "repository": {
