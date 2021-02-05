@@ -10,7 +10,8 @@
     "client-prod": "npm run prod --prefix backend/client",
     "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
     "start": "npm run server",
-    "init": "npm install --prefix client && npm install --prefix backend && npm install"
+    "init": "npm install --prefix client && npm install --prefix backend && npm install",
+    "heroku-postbuild": "npm run init && npm run build --prefix backend/client"
   },
   "repository": {
     "type": "git",
