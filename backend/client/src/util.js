@@ -12,13 +12,12 @@ export const url_replacement = (str) => {
 
 // api routes
 const IPADDRESS = 'm-cutie.herokuapp.com';
-const PORT = '80';
 
-export const URL = `http://${IPADDRESS}:${PORT}/`;
+export const URL = `/`;
 export const GETTOPICS = "mqtt/t";
 export const GETMSG = "mqtt/m?topic=";
 export const GETSUB = "mqtt/s";
-export const WEBSOCKET=`ws://${IPADDRESS}:${PORT}/live`;
+export const WEBSOCKET=`/live`;
 
 
 export const colors={
