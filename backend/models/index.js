@@ -6,9 +6,11 @@ const logger = require("../config/pino");
 const sequelize = new Sequelize(process.env.DATABASE_URL || "postgres://postgres:test123@localhost:5432/mcutie", {
   logging: msg => logger.debug(msg),
   dialect: 'postgres',
-  ssl: {
-      rejectUnauthorized: false
-    }
+  dialectOptions: {
+      ssl: {
+          rejectUnauthorized: false
+      }
+  }
 });
 
 const Msg = MsgModel(sequelize);
