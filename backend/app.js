@@ -30,7 +30,7 @@ db.sequelize.sync({force:false})
     db.limitMsgRows();
   }, 24 * 60 * 60 * 1000);
 })
-.catch((e) => logger.error("Error setting up the databse:", e));
+.catch((e) => logger.error("Error setting up the databse:" + e));
 
 // middleware
 app.use(cors());
