@@ -3,15 +3,23 @@ const MsgModel = require("./msg");
 const SubModel = require('./sub');
 const logger = require("../config/pino");
 
-const sequelize = new Sequelize(process.env.DATABASE_URL || "postgres://postgres:test123@localhost:5432/mcutie", {
+let options = {
   logging: msg => logger.debug(msg),
   dialect: 'postgres',
-  dialectOptions: {
-      ssl: {
-          rejectUnauthorized: false
-      }
+}
+if (process.env.NODE_ENV === "production"){
+  options = {
+    logging: msg => logger.debug(msg),
+    dialect: 'postgres',
+    dialectOptions: {
+        ssl: {
+            rejectUnauthorized: false
+        }
+    }
   }
-});
+}
+
+const sequelize = new Sequelize(process.env.DATABASE_URL || "postgres://postgres:test123@localhost:5432/mcutie", options);
 
 const Msg = MsgModel(sequelize);
 const Sub = SubModel(sequelize);

@@ -11,13 +11,13 @@ export const url_replacement = (str) => {
 }
 
 // api routes
-const IPADDRESS = 'm-cutie.herokuapp.com';
+let IPADDRESS = window.location.hostname;
 
 export const URL = `/`;
 export const GETTOPICS = "mqtt/t";
 export const GETMSG = "mqtt/m?topic=";
 export const GETSUB = "mqtt/s";
-export const WEBSOCKET=`/live`;
+export let WEBSOCKET=`ws://${IPADDRESS}/live`;
 
 
 export const colors={
