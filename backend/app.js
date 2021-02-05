@@ -14,7 +14,6 @@ const subscribeAll = require('./mqtt/sub');
 const routes = require("./route/index");
 
 const PORT = process.env.PORT || 5000;
-const IPADDRESS = process.env.IPADDRESS || 'localhost';
 
 const app = express();
 const server = http.createServer(app);
@@ -54,8 +53,8 @@ if (process.env.NODE_ENV === "production"){
 
 
 // since we're using a websocket, listen on the server instead of the app
-server.listen(PORT, IPADDRESS,() => {
-  console.log(`Listening at http://${IPADDRESS}:${PORT}`);
+server.listen(PORT, () => {
+  console.log(`Listening at port:${PORT}`);
 });
 
 // handle exit
