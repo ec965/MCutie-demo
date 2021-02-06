@@ -19,6 +19,7 @@ class LiveDash extends React.Component {
       console.log("websocket connected");
     }
     this.ws.onclose = () => {
+      alert("Websocket Closed!");
       console.log("websocket closed");
     }
   }
