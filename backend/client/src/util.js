@@ -11,13 +11,13 @@ export const url_replacement = (str) => {
 }
 
 // api routes
-let IPADDRESS = window.location.hostname;
+
 
 export const URL = `/`;
 export const GETTOPICS = "mqtt/t";
 export const GETMSG = "mqtt/m?topic=";
 export const GETSUB = "mqtt/s";
-export let WEBSOCKET=`ws://${IPADDRESS}/live`;
+export let WEBSOCKET=`ws://${window.location.host}/live`;
 
 
 export const colors={

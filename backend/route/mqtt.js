@@ -88,6 +88,9 @@ router.get("/s", (req, res) => {
 // if failed to add to DB: 500
 router.post("/s", (req, res) => {
   if (typeof req.body.topic !== "undefined"){
+    req.body.topic = req.body.topic.trim();
+    if (req.body.topic === '') return res.status(400).json({message: 'cannot subscribe to that topic'});
+
     // check for valid qos, qos must be 0, 1, or 2
     let qos = 0;
     if (typeof req.body.qos !== "undefined"){
@@ -98,7 +101,7 @@ router.post("/s", (req, res) => {
     }
     db.limitSubRows()
     .then((atLimit) => {
-      if (atLimit) return res.send(400).json({message: "Database sub limit reached."});
+      if (atLimit) return res.status(400).json({message: "Database sub limit reached."});
 
       db.Sub.findOne({
         where:{

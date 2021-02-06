@@ -3,7 +3,7 @@ const logger = require('../config/pino');
 const onMessage = require('./msg');
 const subscribeAll = require('./sub');
 
-const Broker = process.env.MQTT_BROKER || "https://test.mosquitto.org";
+const Broker = process.env.MQTT_BROKER;
 var connOpts = {
   clientId: process.env.MQTT_CLIENTID,
   username: process.env.MQTT_USERNAME,
