@@ -3,7 +3,6 @@ const express = require("express");
 const cors = require("cors");
 // const helmet = require("helmet");
 const bodyParser = require("body-parser");
-const http = require('http');
 const WebSocket = require('ws');
 const path = require('path');
 
@@ -16,11 +15,6 @@ const routes = require("./route/index");
 const PORT = process.env.PORT || 5000;
 
 const app = express();
-const server = http.createServer(app);
-// create the websocket server
-const wss = new WebSocket.Server({server: server, path: "/live" });
-routes.wss(wss); // apply wss callbacks defined in routes/ws.js
-
 
 db.sequelize.sync({force:false})
 .then(() => {
@@ -49,19 +43,15 @@ if (process.env.NODE_ENV === "production"){
     res.sendFile(path.resolve(__dirname, "client/build", "index.html"));
   })
 }
-// serve the static site
-if (process.env.NODE_ENV === "dev"){
-  app.use(express.static(path.join(__dirname, 'client/public')));
-  app.get('/*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, "client/public", "index.html"));
-  })
-}
 
 
 // since we're using a websocket, listen on the server instead of the app
-server.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Listening at port:${PORT}`);
 });
+// create the websocket server
+const wss = new WebSocket.Server({server: server, path: "/live" });
+routes.wss(wss); // apply wss callbacks defined in routes/ws.js
 
 // handle exit
 process.stdin.resume();//so the program will not close instantly
