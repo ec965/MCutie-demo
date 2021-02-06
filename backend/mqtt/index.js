@@ -5,9 +5,9 @@ const subscribeAll = require('./sub');
 
 const Broker = process.env.MQTT_BROKER || "https://test.mosquitto.org";
 var connOpts = {
-  clientId: process.env.MQTT_CLIENTID || "",
-  username: process.env.MQTT_USERNAME || "",
-  password: process.env.MQTT_PASSWORD || "",
+  clientId: process.env.MQTT_CLIENTID,
+  username: process.env.MQTT_USERNAME,
+  password: process.env.MQTT_PASSWORD,
 };
 
 // connect mqtt client
