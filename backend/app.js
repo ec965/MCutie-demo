@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const cors = require("cors");
-// const helmet = require("helmet");
+const helmet = require("helmet");
 const bodyParser = require("body-parser");
 const WebSocket = require('ws');
 const path = require('path');
@@ -28,7 +28,7 @@ db.sequelize.sync({force:false})
 
 // middleware
 app.use(cors());
-// app.use(helmet());
+app.use(helmet());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 

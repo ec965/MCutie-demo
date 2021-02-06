@@ -17,7 +17,7 @@ export const URL = `/`;
 export const GETTOPICS = "mqtt/t";
 export const GETMSG = "mqtt/m?topic=";
 export const GETSUB = "mqtt/s";
-export let WEBSOCKET=`ws://${window.location.host}/live`;
+export let WEBSOCKET=`wss://${window.location.host}/live`;
 
 
 export const colors={
