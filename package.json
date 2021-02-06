@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "server": "npm start --prefix backend",
-    "server-prod": "npm run prod --prefix backend",
+    "server-dev": "npm run dev --prefix backend",
     "client": "npm start --prefix backend/client",
-    "client-prod": "npm run prod --prefix backend/client",
-    "dev": "concurrently --kill-others \"npm run server\" \"npm run client\"",
+    "dev": "concurrently --kill-others \"npm run server-dev\" \"npm run client\"",
     "start": "npm run server",
     "heroku-postbuild": "npm install --prefix backend/client && npm install --prefix backend && npm install"
   },
