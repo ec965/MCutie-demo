@@ -84,6 +84,7 @@ module.exports = (wss) => {
     mqttEmitter.emit('MQTTRX'); // force event on websocket init to send initial topics
 
     ws.on('message', (msg) => {
+      console.log(msg);
       try{
         var msgjson = JSON.parse(msg);
         if (typeof msgjson.request !== "undefined"){
