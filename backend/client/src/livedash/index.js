@@ -36,7 +36,12 @@ class LiveDash extends React.Component {
           </Row>
           <Row className="top space">
             <Row>
-              <LivePublisher ws={this.ws}/>
+              <Column> 
+                <LivePublisher ws={this.ws}/>
+                <p>Int Resolution: 1</p>
+                <p>Float Resolution: 0.1</p>
+                <a href="https://github.com/ec965/MCutie/blob/master/README.md#float-resolution-and-int-resolution">What's this?</a>
+              </Column>
             </Row>
             <Column className="top">
               <TableOfSubs/>
